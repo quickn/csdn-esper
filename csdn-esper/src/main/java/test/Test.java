@@ -22,7 +22,8 @@ public class Test {
 
 		String product = Product.class.getName();
 		//		String epl1 = "select * from " + product + ".win:time_batch(10 sec)";
-		String epl1 = "select sum(price) from " + product + ".win:length_batch(2)";
+		//String epl1 = "select sum(price) from " + product + "(type='eos').win:length_batch(2) ";
+		String epl1 = "select sum(price) from " + product + ".win:length_batch(2) where type='eos' ";
 
 		EPStatement state = admin.createEPL(epl1);
 		state.addListener(new TestListener());
@@ -63,5 +64,10 @@ public class Test {
 		runtime.sendEvent(eos3);
 
 		System.out.println();
+
+		Product eos4 = new Product();
+		eos4.setPrice(100);
+		eos4.setType("eos");
+		runtime.sendEvent(eos4);
 	}
 }

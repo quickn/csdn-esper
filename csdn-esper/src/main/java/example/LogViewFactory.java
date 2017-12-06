@@ -1,16 +1,12 @@
 package example;
 
-import java.util.List;
-
 import com.espertech.esper.client.EventType;
 import com.espertech.esper.core.context.util.AgentInstanceViewFactoryChainContext;
 import com.espertech.esper.core.service.StatementContext;
-import com.espertech.esper.epl.expression.ExprNode;
-import com.espertech.esper.view.View;
-import com.espertech.esper.view.ViewFactory;
-import com.espertech.esper.view.ViewFactoryContext;
-import com.espertech.esper.view.ViewFactorySupport;
-import com.espertech.esper.view.ViewParameterException;
+import com.espertech.esper.epl.expression.core.ExprNode;
+import com.espertech.esper.view.*;
+
+import java.util.List;
 
 public class LogViewFactory extends ViewFactorySupport {
 
@@ -28,6 +24,11 @@ public class LogViewFactory extends ViewFactorySupport {
 	}
 
 	public EventType getEventType() {
+		return null;
+	}
+
+	@Override
+	public String getViewName() {
 		return null;
 	}
 

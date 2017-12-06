@@ -1,17 +1,12 @@
 package example;
 
+import com.espertech.esper.client.*;
+import com.espertech.esper.client.context.ContextPartitionSelectorSegmented;
+import example.model.ESB;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import com.espertech.esper.client.EPAdministrator;
-import com.espertech.esper.client.EPRuntime;
-import com.espertech.esper.client.EPServiceProvider;
-import com.espertech.esper.client.EPServiceProviderManager;
-import com.espertech.esper.client.EPStatement;
-import com.espertech.esper.client.EventBean;
-import com.espertech.esper.client.context.ContextPartitionSelectorSegmented;
-import example.model.ESB;
 
 /**
  * 1.context的作用是对特定的context定义产生隔离，如例子所示，以不同的id进行隔离，id为1的平均价格只有当id为1的事件
@@ -32,7 +27,7 @@ public class ContextTest {
 		String esb = ESB.class.getName();
 		// 创建context
 		String epl1 = "create context esbtest partition by id from " + esb;
-		String epl2 = "context esbtest select avg(price) as aPrice, id from " + esb;
+		String epl2 = "context esbtest select avg(price) as aPrice, id from " + esb +".win:length_batch(2)  ";
 
 		EPStatement context = admin.createEPL(epl1);
 		EPStatement state = admin.createEPL(epl2);
@@ -92,5 +87,18 @@ public class ContextTest {
 		t6.setPrice(20);
 		System.out.println("sendEvent: id=5, price=20");
 		runtime.sendEvent(t6);
+
+
+		ESB t7 = new ESB();
+		t7.setId(1);
+		t7.setPrice(50);
+		System.out.println("sendEvent: id=1, price=50");
+		runtime.sendEvent(t7);
+
+		ESB t8 = new ESB();
+		t8.setId(1);
+		t8.setPrice(10);
+		System.out.println("sendEvent: id=1, price=10");
+		runtime.sendEvent(t8);
 	}
 }
